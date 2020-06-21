@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const mongoSchema = new Schema({
+const messageSchema = new Schema({
     address: {
         type: String,
         required: true,
     },
     img: {
-        type: Image,
+        type: String,
         required: false,
     },
     body: {
@@ -16,9 +16,4 @@ const mongoSchema = new Schema({
     }
 });
 
-const Message = mongoose.model("Message", mongoSchema);
-
-Message.create({
-    address: "UBND TP.HCM",
-    body: "phong chong corona",
-});
+module.exports = mongoose.model('Message', messageSchema);
