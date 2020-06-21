@@ -15,5 +15,10 @@ const messageSchema = new Schema({
         required: true,
     }
 });
-
+const message = mongoose.model('Message', messageSchema);
+message.create({
+    address: "asdasd",
+    img: "asdasd",
+    body: "asd",
+});
 module.exports = mongoose.model('Message', messageSchema);

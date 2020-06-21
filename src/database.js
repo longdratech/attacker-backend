@@ -1,19 +1,15 @@
-//lets require/import the mongodb native drivers.
-const { MongoClient } = require('mongodb');
+const  mongoose = require('mongoose');
 
-module.exports = async function ConnectDB() {
-  const uri = 'mongodb+srv://kma_attacker:Nguyetdien@123@cluster0-nuac9.azure.mongodb.net/attacker?retryWrites=true&w=majority';
+module.exports.connect = function () {
+	mongoose.connect('mongodb+srv://kma_attacker:Nguyetdien@123@cluster0-nuac9.azure.mongodb.net/attacker?retryWrites=true&w=majority', {useNewUrlParser: true})
+		.then(() => {
+			console.log('Connect success database !');
+		}).catch((err) => {
+			console.log('Connect fail ');
+			console.log('Error: ', err);
+		});
+};
 
-  // const dbName = 'acttackesr';
-
-  MongoClient.connect(uri, function (err, client) {
-    if (err) {
-      console.log('Error occurred while connecting to MongoDB Atlas...\n', err);
-    }
-    console.log('Connected...');
-    const collection = client.db("attacker").collection("devices");
-    // perform actions on the collection object
-    client.close();
-  });
-}
-
+module.exports.disconnect = function () {
+	return mongoose.disconnect();
+};
