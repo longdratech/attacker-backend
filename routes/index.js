@@ -1,7 +1,37 @@
 const express = require('express')
-const app = express()
-const port = 3000
+var router = express.Router();
+var Message = require("../src/models/Message");
 
-app.get('/', (req, res) => res.send('Hello World!'))
+router.post('/create_message', (req, res, next) => {
+  const newMessage = new Message({
+    message: [
+      {
+        address: req.body.address,
+        body: [req.body.body],
+      }
+    ]
+  });
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
+  newMessage.save((err) => {
+    if (err) {
+      res.json({
+        result: "failure",
+        data: {},
+        message: `error is: ${err}`,
+      })
+    } else {
+      res.json({
+        result: "ok",
+        data: {
+          message: [{
+            address: req.body.address,
+            body: [req.body.body]
+          }]  
+        },
+        message: "success"
+      });
+    }
+  });
+});
+
+module.exports = router;

@@ -1,44 +1,49 @@
 const express = require('express');
 const Message = require('./src/models/Message');
 const mongoose = require('./src/database.js');
+const routes = require('./routes/index');
+const bodyParser = require('body-parser');
 
 var app = express();
 
-//Connect databse
 mongoose.connect();
-
 
 
 app.get('/', function (req, res) {
   res.send('hello world');
 });
 
-app.post('/message', (req, res, next) => {
-  const newMessage = new Message({
-    address: req.body.address,
-    img: req.body.img,
-    body: req.body.body,
-  });
-  newMessage.save((err) => {
-    if (err) {
-      res.json({
-        default: "fail",
-        data: {},
-        message: "errror",
-      });
-    } else {
-      res.json({
-        default: "OK",
-        data: {
-          address: req.body.address,
-          img: req.body.img,
-          body: res.body.body,
-        },
-        message: "susscess",
-      })
-    }
-  });
-});
+app.use(bodyParser.json());
 
-// module.exports = app;
-app.listen(3000);
+app.use(routes);
+
+// app.post('/create', (req, res, next) => {
+//   var newMess = new Message({
+//     message: req.body.message,
+//     body: req.body.body,
+//   });
+
+  // console.log(`long ${newMess}`)
+
+  // newMess.save((err) => {
+  //   if(err) {
+  //     res.json({
+  //       result: "failure",
+  //       data: {},
+  //       message: `error is: ${err}`,
+  //     })
+  //   } else {
+  //     res.json({
+  //       result: "success",
+  //       data: {
+  //         message: req.body.message,
+  //         body: req.body.body
+  //       },
+  //       message: `success`,
+  //     })
+  //     console.log(res.json);
+  //   }
+  // })
+// })
+
+module.exports = app;
